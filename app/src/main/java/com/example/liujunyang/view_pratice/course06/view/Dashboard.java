@@ -71,10 +71,12 @@ public class Dashboard extends View {
         paint.setPathEffect(mPathEffect);
         canvas.drawArc(left,top,right,bottom,START_ANGLE,SWEEP_ANGLE,false,paint);
 
+
+
         //画指针线
-        Log.d("jun",getAngleFromMark(13)+"");
-        float stopX = (float) (Math.cos(getAngleFromMark(13))*Utils.dp2px(LINE_LENGTH)+getWidth()/2);
-        float stopY = (float) (Math.sin(getAngleFromMark(13))*Utils.dp2px(LINE_LENGTH)+(getHeight()/2));
+        Log.d("jun",getAngleFromMark(5)+"");
+        float stopX = (float) (Math.cos(Math.toRadians(getAngleFromMark(5)))*Utils.dp2px(LINE_LENGTH)+getWidth()/2);
+        float stopY = (float) (Math.sin(Math.toRadians(getAngleFromMark(5)))*Utils.dp2px(LINE_LENGTH)+(getHeight()/2));
         canvas.drawLine(getWidth()/2,getHeight()/2,stopX,stopY,paint);
 
 

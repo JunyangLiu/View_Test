@@ -6,9 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-   <com.example.liujunyang.view_pratice.course06.view.Dashboard
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:visibility="visible" />
+   <!--<com.example.liujunyang.view_pratice.course06.view.Dashboard-->
+       <!--android:layout_width="match_parent"-->
+       <!--android:layout_height="match_parent"-->
+       <!--android:visibility="visible" />-->
+   <!--<com.example.liujunyang.view_pratice.course06.view.PieChart-->
+       <!--android:layout_width="match_parent"-->
+       <!--android:layout_height="match_parent" />-->
 
+   <com.example.liujunyang.view_pratice.course06.view.AvatarView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>
