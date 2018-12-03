@@ -6,13 +6,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathDashPathEffect;
-import android.graphics.PathEffect;
 import android.graphics.PathMeasure;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import com.example.liujunyang.view_pratice.course06.Utils;
+import com.example.liujunyang.view_pratice.Utils;
 
 /**
  * Created by @author liujunyang

@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.example.liujunyang.view_pratice.course06.Utils;
+import com.example.liujunyang.view_pratice.Utils;
 
 /**
  * Created by @author liujunyang

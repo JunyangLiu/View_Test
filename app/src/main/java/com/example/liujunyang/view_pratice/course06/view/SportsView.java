@@ -5,13 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import com.example.liujunyang.view_pratice.course06.Utils;
+import com.example.liujunyang.view_pratice.Utils;
 
 /**
  * Created by @author liujunyang
@@ -55,34 +54,36 @@ public class SportsView extends View {
         // 绘制文字
         paint.setTextSize(Utils.dp2px(80));
         paint.setStyle(Paint.Style.FILL);
-        paint.setTextAlign(Paint.Align.CENTER);
+//        paint.setTextAlign(Paint.Align.CENTER);
         paint.getTextBounds("abgj安卓", 0, "abgj安卓".length(), rect);
         float offset = (fontMetrics.ascent + fontMetrics.descent) / 2;
-        canvas.drawText("abgj安卓", getWidth()/2, getHeight() / 2, paint);
+        canvas.drawText("abgj安卓", getWidth()/10, getHeight() / 2, paint);
 
         Log.d("jun","centerY:"+getHeight()/2);
         Log.d("jun","rect.top:"+rect.top+"rect.bottom:"+rect.bottom+"   fontMetrics.ascent:"+fontMetrics.ascent+"   fontMetrics.descent:"+fontMetrics.descent);
         paint.setStrokeWidth(Utils.dp2px(1));
         paint.setColor(Color.BLUE);
-//        canvas.drawLine(rect.left+getWidth() /10,getHeight() / 2 + rect.top,rect.right+getWidth() /10,getHeight() / 2 + rect.top,paint);
-//        canvas.drawLine(rect.left+getWidth() /10,getHeight() / 2 + rect.bottom,rect.right+getWidth() /10,getHeight() / 2 + rect.bottom,paint);
-//        canvas.drawLine(rect.left+getWidth() /10,getHeight() / 2 + rect.top,rect.left+getWidth() /10,getHeight() / 2 + rect.bottom , paint);
-//        canvas.drawLine(rect.right+getWidth() /10,getHeight() / 2 + rect.top,rect.right+getWidth() /10,getHeight() / 2 + rect.bottom , paint);
-        paint.setColor(Color.RED);
-        canvas.drawLine(0,getHeight() / 2 + fontMetrics.ascent,getWidth(),getHeight() / 2 + fontMetrics.ascent , paint);
-        paint.setColor(Color.MAGENTA);
-        canvas.drawLine(0,getHeight() / 2 + fontMetrics.descent,getWidth(),getHeight() / 2 + fontMetrics.descent , paint);
-        paint.setColor(Color.BLUE);
-        canvas.drawLine(0,getHeight() / 2 + fontMetrics.top,getWidth(),getHeight() / 2 + fontMetrics.top , paint);
-        paint.setColor(Color.BLACK);
-        canvas.drawLine(0,getHeight() / 2 + fontMetrics.bottom,getWidth(),getHeight() / 2 + fontMetrics.bottom , paint);
-        paint.setColor(Color.BLACK);
-        canvas.drawLine(0,getHeight() / 2 ,getWidth(),getHeight() / 2  , paint);
+        canvas.drawLine(rect.left+getWidth() /10,getHeight() / 2 + rect.top,rect.right+getWidth() /10,getHeight() / 2 + rect.top,paint);
+        canvas.drawLine(rect.left+getWidth() /10,getHeight() / 2 + rect.bottom,rect.right+getWidth() /10,getHeight() / 2 + rect.bottom,paint);
+        canvas.drawLine(rect.left+getWidth() /10,getHeight() / 2 + rect.top,rect.left+getWidth() /10,getHeight() / 2 + rect.bottom , paint);
+        canvas.drawLine(rect.right+getWidth() /10,getHeight() / 2 + rect.top,rect.right+getWidth() /10,getHeight() / 2 + rect.bottom , paint);
 
-        Log.d("jun","fontMetrics.top = "+fontMetrics.top);
-        Log.d("jun","fontMetrics.ascent = "+fontMetrics.ascent);
-        Log.d("jun","fontMetrics.descent = "+fontMetrics.descent);
-        Log.d("jun","fontMetrics.bottom = "+fontMetrics.bottom);
+
+//        paint.setColor(Color.RED);
+//        canvas.drawLine(0,getHeight() / 2 + fontMetrics.ascent,getWidth(),getHeight() / 2 + fontMetrics.ascent , paint);
+//        paint.setColor(Color.MAGENTA);
+//        canvas.drawLine(0,getHeight() / 2 + fontMetrics.descent,getWidth(),getHeight() / 2 + fontMetrics.descent , paint);
+//        paint.setColor(Color.BLUE);
+//        canvas.drawLine(0,getHeight() / 2 + fontMetrics.top,getWidth(),getHeight() / 2 + fontMetrics.top , paint);
+//        paint.setColor(Color.BLACK);
+//        canvas.drawLine(0,getHeight() / 2 + fontMetrics.bottom,getWidth(),getHeight() / 2 + fontMetrics.bottom , paint);
+//        paint.setColor(Color.BLACK);
+//        canvas.drawLine(0,getHeight() / 2 ,getWidth(),getHeight() / 2  , paint);
+//
+//        Log.d("jun","fontMetrics.top = "+fontMetrics.top);
+//        Log.d("jun","fontMetrics.ascent = "+fontMetrics.ascent);
+//        Log.d("jun","fontMetrics.descent = "+fontMetrics.descent);
+//        Log.d("jun","fontMetrics.bottom = "+fontMetrics.bottom);
 
 
     }

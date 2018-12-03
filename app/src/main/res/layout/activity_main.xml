@@ -14,7 +14,8 @@
        <!--android:layout_width="match_parent"-->
        <!--android:layout_height="match_parent" />-->
 
-   <com.example.liujunyang.view_pratice.course06.view.SportsView
+   <com.example.liujunyang.view_pratice.course07.CameraView
+       android:id="@+id/view"
        android:layout_width="match_parent"
        android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>
