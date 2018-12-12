@@ -22,4 +22,11 @@ public class Utils {
         options.inTargetDensity = width;
         return BitmapFactory.decodeResource(res, R.drawable.avatar_rengwuxian, options);
     }
+    public static float getZForCamera() {
+        return - 6 * Resources.getSystem().getDisplayMetrics().density;
+    }
+    public static float dpToPixel(float dp) {
+        return  TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                Resources.getSystem().getDisplayMetrics());
+    }
 }

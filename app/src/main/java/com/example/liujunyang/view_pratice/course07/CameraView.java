@@ -15,48 +15,67 @@ import com.example.liujunyang.view_pratice.Utils;
  * on 2018/12/3
  */
 public class CameraView extends View {
+    private static final float PADDING = Utils.dpToPixel(100);
+    private static final float IMAGE_WIDTH = Utils.dpToPixel(200);
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Camera camera = new Camera();
+    float topFlip = 0;
+    float bottomFlip = 0;
     float flipRotation = 0;
-    float bottomFlip = 45;
+
     public CameraView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
     {
-        camera.rotateX(30);
+        camera.setLocation(0, 0, Utils.getZForCamera()); // -8 = -8 * 72
     }
+
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         // 绘制上半部分
         canvas.save();
-        canvas.rotate(-20,100 + 600 / 2, 100 + 600 / 2);
-        canvas.clipRect(0, 0, getWidth(), 100 + 600 / 2);
-        canvas.rotate(20,100 + 600 / 2, 100 + 600 / 2);
-        canvas.drawBitmap(Utils.getAvatar(getResources(), 600), 100, 100, paint);
+        canvas.translate(PADDING + IMAGE_WIDTH / 2, PADDING + IMAGE_WIDTH / 2);
+        canvas.rotate(-flipRotation);
+        camera.save();
+        camera.rotateX(topFlip);
+        camera.applyToCanvas(canvas);
+        camera.restore();
+        canvas.clipRect(-IMAGE_WIDTH, -IMAGE_WIDTH, IMAGE_WIDTH, 0);
+        canvas.rotate(flipRotation);
+        canvas.translate(-(PADDING + IMAGE_WIDTH / 2), -(PADDING + IMAGE_WIDTH / 2));
+        canvas.drawBitmap(Utils.getAvatar(getResources(), (int)IMAGE_WIDTH), PADDING, PADDING, paint);
         canvas.restore();
 
 
         //绘制下半部分
         canvas.save();
-        canvas.rotate(-20,100 + 600 / 2, 100 + 600 / 2);
-        canvas.clipRect(-100, 100+600/2, getWidth(), getHeight());
-        canvas.translate(100 + 600 / 2, 100 + 600 / 2);
+        canvas.translate(PADDING + IMAGE_WIDTH / 2, PADDING + IMAGE_WIDTH / 2);
+        canvas.rotate(-flipRotation);
         camera.save();
         camera.rotateX(bottomFlip);
         camera.applyToCanvas(canvas);
         camera.restore();
-        canvas.translate(-(100 + 600 / 2), -(100 + 600 / 2));
-        canvas.rotate(20,100 + 600 / 2, 100 + 600 / 2);
-        canvas.drawBitmap(Utils.getAvatar(getResources(), 600), 100, 100, paint);
+        canvas.clipRect(-IMAGE_WIDTH, 0, IMAGE_WIDTH, IMAGE_WIDTH);
+        canvas.rotate(flipRotation);
+        canvas.translate(-(PADDING + IMAGE_WIDTH / 2), -(PADDING + IMAGE_WIDTH / 2));
+        canvas.drawBitmap(Utils.getAvatar(getResources(), (int)IMAGE_WIDTH), PADDING, PADDING, paint);
         canvas.restore();
 
 
 
     }
 
+    public float getTopFlip() {
+        return topFlip;
+    }
 
+    public void setTopFlip(float topFlip) {
+        this.topFlip = topFlip;
+        invalidate();
+    }
     public float getFlipRotation() {
         return flipRotation;
     }

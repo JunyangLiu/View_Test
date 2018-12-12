@@ -14,8 +14,13 @@
        <!--android:layout_width="match_parent"-->
        <!--android:layout_height="match_parent" />-->
 
-   <com.example.liujunyang.view_pratice.course07.CameraView
-       android:id="@+id/view"
+   <!--<com.example.liujunyang.view_pratice.course07.CameraView-->
+       <!--android:id="@+id/view"-->
+       <!--android:layout_width="match_parent"-->
+       <!--android:layout_height="match_parent" />-->
+   <com.example.liujunyang.view_pratice.course10.MaterialEditText
        android:layout_width="match_parent"
-       android:layout_height="match_parent" />
+       android:hint="liujunyang"
+       android:layout_height="wrap_content"
+       app:useFloatingLabel="true"/>
 </android.support.constraint.ConstraintLayout>
