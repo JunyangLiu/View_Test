@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.OverScroller;
 
 /**
  * Created by @author liujunyang
@@ -20,6 +21,7 @@ import android.view.View;
  */
 public class ScalableImageView extends View {
     private static final float IMAGE_WIDTH = Utils.dpToPixel(300);
+    private static final float OVER_SCALE_FACTOR = 1.5f;
     float offsetX;
     float offsetY;
     //bitmap 绘制位置的其实偏移
@@ -45,6 +47,7 @@ public class ScalableImageView extends View {
     ObjectAnimator objectAnimator;
     GestureDetectorCompat gestureDector;
     MyGestureListener gestureListener = new MyGestureListener();
+    OverScroller scroller;
     public ScalableImageView(Context context) {
         super(context);
     }
@@ -53,6 +56,7 @@ public class ScalableImageView extends View {
         super(context, attrs);
         bitmap = Utils.getAvatar(getResources(), (int) IMAGE_WIDTH);
         gestureDector = new GestureDetectorCompat(context,gestureListener);
+        scroller = new OverScroller(context);
     }
 
     public ScalableImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -68,19 +72,23 @@ public class ScalableImageView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         originalOffsetX = ((float) getWidth() - bitmap.getWidth()) / 2;
         originalOffsetY = ((float) getHeight() - bitmap.getHeight()) / 2;
-        currentScale = getWidth()/IMAGE_WIDTH;
+
         if((float)getWidth()/bitmap.getWidth() > (float)getHeight()/bitmap.getHeight()){
-            bigScale = (float)getWidth()/bitmap.getWidth();
+            bigScale = (float)getWidth()/bitmap.getWidth() * OVER_SCALE_FACTOR;
             smallScale = (float)getHeight()/bitmap.getHeight();
         }else{
             smallScale = (float)getWidth()/bitmap.getWidth();
-            bigScale = (float)getHeight()/bitmap.getHeight();
+            bigScale = (float)getHeight()/bitmap.getHeight() * OVER_SCALE_FACTOR;
         }
+        currentScale = smallScale;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        //将来scala和 偏移关联起来，这样子放缩会慢慢回到原点
+        float scaleFraction = (currentScale - smallScale) / (bigScale - smallScale);
+        canvas.translate(offsetX * scaleFraction, offsetY * scaleFraction);
         canvas.scale(currentScale, currentScale, getWidth() / 2f, getHeight() / 2f);
         Log.d("junyang","originalOffsetX = "+originalOffsetX+" originalOffsetY = "+originalOffsetY);
         canvas.drawBitmap(bitmap,originalOffsetX,originalOffsetY,paint);
@@ -100,7 +108,7 @@ public class ScalableImageView extends View {
         }
         return objectAnimator;
     }
-    class MyGestureListener extends GestureDetector.SimpleOnGestureListener{
+    class MyGestureListener extends GestureDetector.SimpleOnGestureListener implements Runnable{
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
             return super.onSingleTapUp(e);
@@ -113,12 +121,34 @@ public class ScalableImageView extends View {
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return super.onScroll(e1, e2, distanceX, distanceY);
+            if(big){
+                offsetX -= distanceX;
+                offsetY -= distanceY;
+                fixOffsets();
+                invalidate();
+            }
+            return false;
+        }
+        private void fixOffsets() {
+            offsetX = Math.min(offsetX, (bitmap.getWidth() * bigScale - getWidth()) / 2);
+            offsetX = Math.max(offsetX, - (bitmap.getWidth() * bigScale - getWidth()) / 2);
+            offsetY = Math.min(offsetY, (bitmap.getHeight() * bigScale - getHeight()) / 2);
+            offsetY = Math.max(offsetY, - (bitmap.getHeight() * bigScale - getHeight()) / 2);
         }
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            return super.onFling(e1, e2, velocityX, velocityY);
+            if (big) {
+                scroller.fling((int) offsetX, (int) offsetY, (int) velocityX, (int) velocityY,
+                        - (int) (bitmap.getWidth() * bigScale - getWidth()) / 2,
+                        (int) (bitmap.getWidth() * bigScale - getWidth()) / 2,
+                        - (int) (bitmap.getHeight() * bigScale - getHeight()) / 2,
+                        (int) (bitmap.getHeight() * bigScale - getHeight()) / 2);
+
+                //能够使runnable里边的代码在下一帧被执行
+                postOnAnimation(this);
+            }
+            return false;
         }
 
         @Override
@@ -159,5 +189,17 @@ public class ScalableImageView extends View {
         public boolean onContextClick(MotionEvent e) {
             return super.onContextClick(e);
         }
+
+        @Override
+        public void run() {
+            //computeScrollOffset()相当于告诉Scroller 计算一下我要取数据了，如果计算过程结束则会直接返回false
+            if (scroller.computeScrollOffset()) {
+                offsetX = scroller.getCurrX();
+                offsetY = scroller.getCurrY();
+                invalidate();
+                postOnAnimation(this);
+            }
+        }
     }
+
 }
